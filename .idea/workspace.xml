@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="419b6c30-ece5-453a-b1b1-5e0f6bb2e933" name="Changes" comment="Initial commit" />
+    <list default="true" id="419b6c30-ece5-453a-b1b1-5e0f6bb2e933" name="Changes" comment="Initial commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -121,7 +124,7 @@
       <updated>1697720946420</updated>
       <workItem from="1697720947468" duration="41000" />
       <workItem from="1697720995376" duration="745000" />
-      <workItem from="1697721796851" duration="334000" />
+      <workItem from="1697721796851" duration="1066000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <option name="closed" value="true" />
