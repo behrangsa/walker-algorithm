@@ -19,7 +19,7 @@ dependencies {
 }
 
 group = 'org.behrang.algorithm'
-version = '1.0-SNAPSHOT'
+version = '1.0.0'
 description = 'John Q Walker Node Positioning Algorithm'
 
 java {
