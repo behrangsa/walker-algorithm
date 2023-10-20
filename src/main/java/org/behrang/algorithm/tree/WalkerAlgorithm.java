@@ -6,38 +6,7 @@ import java.util.Map;
 public class WalkerAlgorithm<T> {
 
     private static final long MAX_DEPTH = Long.MAX_VALUE;
-
-    /**
-     * During the operation of the algorithm, we walk the tree two times.
-     * <p>
-     * Whenever we visit a new node {@code N} at a level {@code L}, we store it in this map.
-     * <p>
-     * Then whenever we need to look up a node's neighboring node to the left, we can consult this map.
-     * <p>
-     * For example, consider the following tree:
-     * <pre>
-     *     A
-     * ┌───┼───┐
-     * B   C   D
-     *     │   │
-     *     E   F
-     * </pre>
-     * <p>
-     * As you can see, node {@code A} is at level 0, nodes {@code B}, {@code C}, {@code D} are at level 1, and nodes
-     * {@code E} and {@code F} are at level 2.
-     * <p>
-     * When we arrive at node {@code F}, we can consult to look up its left neighbor {@code E} using this table:
-     * <pre>{@code
-     *      // leftNeighbor will resolve to node "E"
-     *      var leftNeighbor = previousNodeAtLevel.get(2);
-     * }</pre>
-     * <p>
-     * Similarly, when we arrive at node {@code C}:
-     * <pre>{@code
-     *      // leftNeighbor will resolve to node "B"
-     *      var leftNeighbor = previousNodeAtLevel.get(1);
-     * }</pre>
-     */
+    
     private final Map<Integer, Node<T>> previousNodeAtLevel;
 
     private final double siblingSeparation;
