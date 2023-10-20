@@ -2,6 +2,8 @@
 
 A Java implementation of the algorithm presented by John Q. Walker II in the paper titled _A Node-Positioning Algorithm for General Trees_.
 
+![Demo](demo.png)
+
 ## Acknowledgments
 
 [This](https://github.com/soerenreichardt/graph-drawing) implementation was consulted heavily in the course of writing this code.
