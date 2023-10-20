@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.geom.Dimension2D;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +21,7 @@ class WalkerAlgorithmTest {
                 4,
                 0,
                 0,
-                0
+                4
         );
 
         o = node("O");
@@ -96,6 +98,8 @@ class WalkerAlgorithmTest {
     @Test
     void testPosition() {
         algorithm.position(o);
+        Dimension2D dimension2D = DimensionCalculator.calculateTreeDimension(o);
+        System.out.println(dimension2D);
 
         assertNode("O", 13.5, o);
 
