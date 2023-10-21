@@ -5,21 +5,19 @@ import java.util.Map;
 
 public class WalkerAlgorithm<T> {
 
-    private static final long MAX_DEPTH = Long.MAX_VALUE;
-    
     private final Map<Integer, Node<T>> previousNodeAtLevel;
 
-    private final double siblingSeparation;
+    private final float siblingSeparation;
 
-    private final double subtreeSeparation;
+    private final float subtreeSeparation;
 
-    private final double levelSeparation;
+    private final float levelSeparation;
 
-    private final double xTopAdjustment;
+    private final float xTopAdjustment;
 
-    private final double yTopAdjustment;
+    private final float yTopAdjustment;
 
-    public WalkerAlgorithm(double siblingSeparation, double subtreeSeparation, double xTopAdjustment, double yTopAdjustment, double levelSeparation) {
+    public WalkerAlgorithm(float siblingSeparation, float subtreeSeparation, float xTopAdjustment, float yTopAdjustment, float levelSeparation) {
         this.previousNodeAtLevel = new HashMap<>();
         this.siblingSeparation = siblingSeparation;
         this.subtreeSeparation = subtreeSeparation;
@@ -41,6 +39,7 @@ public class WalkerAlgorithm<T> {
     }
 
     void firstWalk(Node<T> thisNode, int currentLevel) {
+        // We need to maintain
         Node<T> leftNeighbor = getPreviousNodeAtLevel(currentLevel);
         thisNode.setLeftNeighbor(leftNeighbor);
         setPreviousNodeAtLevel(currentLevel, thisNode);
@@ -48,14 +47,14 @@ public class WalkerAlgorithm<T> {
             firstWalk(child, currentLevel + 1);
         });
 
-        if (thisNode.isLeaf() || currentLevel == MAX_DEPTH) {
+        if (thisNode.isLeaf()) {
             if (thisNode.hasLeftSibling()) {
                 thisNode.setPrelim(thisNode.getLeftSibling().getPrelim() + siblingSeparation + meanWidth(thisNode.getLeftSibling(), thisNode));
             } else {
                 thisNode.setPrelim(0);
             }
         } else {
-            double midpoint = (thisNode.getLeftChild().getPrelim() + thisNode.getRightChild().getPrelim()) / 2;
+            float midpoint = (thisNode.getLeftChild().getPrelim() + thisNode.getRightChild().getPrelim()) / 2;
 
             if (thisNode.hasLeftSibling()) {
                 thisNode.setPrelim(thisNode.getLeftSibling().getPrelim() + siblingSeparation + meanWidth(thisNode.getLeftSibling(), thisNode));
@@ -68,9 +67,9 @@ public class WalkerAlgorithm<T> {
         }
     }
 
-    void secondWalk(Node<T> node, int level, double modSum) {
-        double xTemp = xTopAdjustment + node.getPrelim() + modSum;
-        double yTemp = yTopAdjustment + (level * levelSeparation);
+    void secondWalk(Node<T> node, int level, float modSum) {
+        float xTemp = xTopAdjustment + node.getPrelim() + modSum;
+        float yTemp = yTopAdjustment + (level * levelSeparation);
 
         node.setX(xTemp);
         node.setY(yTemp);
@@ -84,15 +83,15 @@ public class WalkerAlgorithm<T> {
         Node<T> leftMost = treeNode.getLeftChild();
         Node<T> leftNeighbor;
 
-        for (int level = baseLevel; level < treeNode.getMaxDepth(); level++) {
+        for (int level = baseLevel; level < treeNode.getDepth(); level++) {
             leftNeighbor = leftMost.getLeftNeighbor();
 
             if (leftMost == null || leftNeighbor == null) {
                 return;
             }
 
-            double leftModSum = 0.0;
-            double rightModSum = 0.0;
+            float leftModSum = 0.0f;
+            float rightModSum = 0.0f;
             Node<T> ancestorLeftmost = leftMost;
             Node<T> ancestorNeighbor = leftNeighbor;
             while (ancestorLeftmost != treeNode) {
@@ -102,11 +101,11 @@ public class WalkerAlgorithm<T> {
                 leftModSum += ancestorNeighbor.getModifier();
             }
 
-            double moveDistance = (
-                    leftNeighbor.getPrelim() +
-                            leftModSum +
-                            subtreeSeparation +
-                            meanWidth(treeNode.getLeftSibling(), treeNode)
+            float moveDistance = (
+                leftNeighbor.getPrelim() +
+                    leftModSum +
+                    subtreeSeparation +
+                    meanWidth(treeNode.getLeftSibling(), treeNode)
             ) - (leftMost.getPrelim() + rightModSum);
 
             if (moveDistance > 0) {
@@ -119,7 +118,7 @@ public class WalkerAlgorithm<T> {
                 }
 
                 if (tempNode != null) {
-                    double portion = moveDistance / numLeftSiblings;
+                    float portion = moveDistance / numLeftSiblings;
                     tempNode = treeNode;
 
                     while (tempNode != ancestorNeighbor) {
@@ -132,7 +131,6 @@ public class WalkerAlgorithm<T> {
                     return;
                 }
             }
-
 
             if (leftMost.getChildren().isEmpty()) {
                 leftMost = treeNode.getLeftmost(level + 2);
@@ -170,7 +168,7 @@ public class WalkerAlgorithm<T> {
         return leftmost;
     }
 
-    double meanWidth(Node<T> n1, Node<T> n2) {
-        return (n1.getWidth() + n2.getWidth()) / 2.0;
+    float meanWidth(Node<T> n1, Node<T> n2) {
+        return (n1.getWidth() + n2.getWidth()) / 2.0f;
     }
 }

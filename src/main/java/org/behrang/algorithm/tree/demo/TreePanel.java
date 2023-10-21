@@ -5,7 +5,6 @@ import org.behrang.algorithm.tree.TreeTraversal;
 import org.behrang.algorithm.tree.WalkerAlgorithm;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -13,7 +12,6 @@ import java.awt.geom.Rectangle2D;
 import static org.behrang.algorithm.tree.DimensionCalculator.calculateMaxNodeDimension;
 
 public class TreePanel<T> extends JPanel {
-
     private Node<T> root;
 
     public TreePanel(Node<T> root) {
@@ -33,34 +31,43 @@ public class TreePanel<T> extends JPanel {
             return;
         }
 
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(
+            RenderingHints.KEY_ANTIALIASING,
+            RenderingHints.VALUE_ANTIALIAS_ON
+        );
+
+        g2.setRenderingHint(
+            RenderingHints.KEY_TEXT_ANTIALIASING,
+            RenderingHints.VALUE_TEXT_ANTIALIAS_GASP
+        );
+
         var dim = calculateMaxNodeDimension(root);
 
         var walker = new WalkerAlgorithm<T>(
-                dim.getWidth(),
-                dim.getWidth(),
-                20,
-                20,
-                dim.getHeight() * 2
+            (float) dim.getWidth(),
+            (float) dim.getWidth(),
+            20,
+            20,
+            (float) (dim.getHeight() * 3)
         );
 
         walker.position(root);
-
-        var g2 = (Graphics2D) g;
         TreeTraversal.preorder(root, n -> {
             drawNode(g2, n);
         });
     }
 
     void drawNode(Graphics2D g, Node<T> node) {
-        double labelMarginX = 12.0;
-        double labelMarginY = 1.0;
+        float labelMarginX = 12.0f;
+        float labelMarginY = 1.0f;
 
         g.setColor(Color.BLACK);
         Rectangle2D rect = new Rectangle2D.Double(
-                node.getX(),
-                node.getY(),
-                node.getWidth(),
-                node.getHeight()
+            node.getX(),
+            node.getY(),
+            node.getWidth(),
+            node.getHeight()
         );
         g.draw(rect);
 
@@ -74,8 +81,8 @@ public class TreePanel<T> extends JPanel {
         Rectangle2D labelBounds = fontMetrics.getStringBounds(label, g);
 
         g.drawString(label,
-                (float) (node.getX() + labelMarginX),
-                (float) (node.getY() + labelMarginY + labelBounds.getHeight())
+            (float) (node.getX() + labelMarginX),
+            (float) (node.getY() + labelMarginY + labelBounds.getHeight())
         );
 
         if (node.hasParent()) {

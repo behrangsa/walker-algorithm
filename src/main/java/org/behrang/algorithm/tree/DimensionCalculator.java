@@ -6,10 +6,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class DimensionCalculator {
     public static <T> Dimension2D calculateTreeDimension(Node<T> root) {
-        final AtomicReference<Double> minX = new AtomicReference<>(Double.MAX_VALUE);
-        final AtomicReference<Double> minY = new AtomicReference<>(Double.MAX_VALUE);
-        final AtomicReference<Double> maxX = new AtomicReference<>(Double.MIN_VALUE);
-        final AtomicReference<Double> maxY = new AtomicReference<>(Double.MIN_VALUE);
+        final AtomicReference<Float> minX = new AtomicReference<>(Float.MAX_VALUE);
+        final AtomicReference<Float> minY = new AtomicReference<>(Float.MAX_VALUE);
+        final AtomicReference<Float> maxX = new AtomicReference<>(Float.MIN_VALUE);
+        final AtomicReference<Float> maxY = new AtomicReference<>(Float.MIN_VALUE);
 
         TreeTraversal.preorder(root, n -> {
             if (n.getX() < minX.get()) {
@@ -20,19 +20,19 @@ public class DimensionCalculator {
                 minY.set(n.getY());
             }
 
-            double x2 = n.getX() + n.getWidth();
+            float x2 = n.getX() + n.getWidth();
             if (x2 > maxX.get()) {
                 maxX.set(x2);
             }
 
-            double y2 = n.getY() + n.getHeight();
+            float y2 = n.getY() + n.getHeight();
             if (y2 > maxY.get()) {
                 maxY.set(y2);
             }
         });
 
-        double width = (maxX.get() - minX.get());
-        double height = (maxY.get() - minY.get());
+        float width = (maxX.get() - minX.get());
+        float height = (maxY.get() - minY.get());
 
         Dimension dim = new Dimension();
         dim.setSize(width, height);
@@ -41,8 +41,8 @@ public class DimensionCalculator {
     }
 
     public static <T> Dimension2D calculateMaxNodeDimension(Node<T> root) {
-        final AtomicReference<Double> width = new AtomicReference<>(Double.MIN_VALUE);
-        final AtomicReference<Double> height = new AtomicReference<>(Double.MIN_VALUE);
+        final AtomicReference<Float> width = new AtomicReference<>(Float.MIN_VALUE);
+        final AtomicReference<Float> height = new AtomicReference<>(Float.MIN_VALUE);
 
         TreeTraversal.preorder(root, n -> {
             if (width.get() < n.getWidth()) {

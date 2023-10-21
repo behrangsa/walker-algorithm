@@ -1,14 +1,20 @@
 package org.behrang.algorithm.tree;
 
+import org.apache.commons.lang3.Validate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
 public class Node<T> {
 
-    private static final double DEFAULT_MODIFIER = 0.0;
+    private static final float DEFAULT_MODIFIER = 0.0f;
 
-    private static final double DEFAULT_PRELIM = 0.0;
+    private static final float DEFAULT_PRELIM = 0.0f;
+
+    private static final float DEFAULT_WIDTH = 2.0f;
+
+    private static final float DEFAULT_HEIGHT = 2.0f;
 
     private Node<T> parent;
 
@@ -16,17 +22,17 @@ public class Node<T> {
 
     private T value;
 
-    private double x;
+    private float x;
 
-    private double y;
+    private float y;
 
-    private double width;
+    private float width;
 
-    private double height;
+    private float height;
 
-    private double prelim = DEFAULT_PRELIM;
+    private float prelim = DEFAULT_PRELIM;
 
-    private double modifier = DEFAULT_MODIFIER;
+    private float modifier = DEFAULT_MODIFIER;
 
     private Node<T> leftNeighbor;
 
@@ -35,7 +41,17 @@ public class Node<T> {
     }
 
     public Node(T value) {
+        this(value, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    }
+
+    public Node(T value, float width, float height) {
+        Validate.notNull(value, "value must be non-null");
+        Validate.isTrue(width > 0);
+        Validate.isTrue(height > 0);
+
         this.value = value;
+        this.width = width;
+        this.height = height;
         this.children = new ArrayList<>();
     }
 
@@ -67,51 +83,51 @@ public class Node<T> {
         this.value = value;
     }
 
-    public double getX() {
+    public float getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(float x) {
         this.x = x;
     }
 
-    public double getY() {
+    public float getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(float y) {
         this.y = y;
     }
 
-    public double getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public void setWidth(double width) {
+    public void setWidth(float width) {
         this.width = width;
     }
 
-    public double getHeight() {
+    public float getHeight() {
         return height;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(float height) {
         this.height = height;
     }
 
-    public double getPrelim() {
+    public float getPrelim() {
         return prelim;
     }
 
-    public void setPrelim(double prelim) {
+    public void setPrelim(float prelim) {
         this.prelim = prelim;
     }
 
-    public double getModifier() {
+    public float getModifier() {
         return modifier;
     }
 
-    public void setModifier(double modifier) {
+    public void setModifier(float modifier) {
         this.modifier = modifier;
     }
 
@@ -217,25 +233,25 @@ public class Node<T> {
         return null;
     }
 
-    public void incrementPrelimBy(double delta) {
+    public void incrementPrelimBy(float delta) {
         setPrelim(prelim + delta);
     }
 
-    public void incrementModifierBy(double delta) {
+    public void incrementModifierBy(float delta) {
         setModifier(modifier + delta);
     }
 
-    public int getMaxDepth() {
+    public int getDepth() {
         Node<T> tree = this;
         if (tree.getChildren().isEmpty()) {
             return 1;
         }
 
         return tree.getChildren()
-                .stream()
-                .mapToInt(Node::getMaxDepth)
-                .max()
-                .orElse(0) + 1;
+            .stream()
+            .mapToInt(Node::getDepth)
+            .max()
+            .orElse(0) + 1;
     }
 
     @Override

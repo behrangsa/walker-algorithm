@@ -1,6 +1,6 @@
 package org.behrang.algorithm.tree;
 
-import org.behrang.algorithm.tree.demo.SampleTree;
+import org.behrang.algorithm.tree.data.SampleTreeGenerator;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DimensionCalculatorTest {
     @Test
     void testCalculateDimensions() {
-        var root = SampleTree.newUniformInstance();
+        var root = SampleTreeGenerator.newUniformInstance();
         var algorithm = new WalkerAlgorithm<String>(4, 4, 0, 0, 4);
 
         algorithm.position(root);
@@ -20,7 +20,7 @@ class DimensionCalculatorTest {
 
     @Test
     void testCalculateMaxNodeDimension() {
-        var root = SampleTree.newUniformInstance();
+        var root = SampleTreeGenerator.newUniformInstance();
         var algorithm = new WalkerAlgorithm<String>(4, 4, 0, 0, 4);
 
         algorithm.position(root);
