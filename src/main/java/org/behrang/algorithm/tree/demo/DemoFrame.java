@@ -2,8 +2,9 @@ package org.behrang.algorithm.tree.demo;
 
 import org.behrang.algorithm.tree.Node;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
 
 import static org.behrang.algorithm.tree.data.SampleTreeGenerator.newMultiformInstance;
 
@@ -17,7 +18,9 @@ public class DemoFrame extends JFrame {
     }
 
     public static void main(String[] args) {
-        var demoFrame = new DemoFrame(newMultiformInstance(40, 80, 40, 80));
+        var root = newMultiformInstance(40, 80, 40, 80);
+        var demoFrame = new DemoFrame(root);
+
         demoFrame.setTitle("Walker Algorithm Demo");
         demoFrame.setSize(1280, 1024);
         demoFrame.setResizable(false);

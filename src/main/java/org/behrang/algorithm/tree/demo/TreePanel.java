@@ -1,26 +1,42 @@
 package org.behrang.algorithm.tree.demo;
 
+import org.behrang.algorithm.tree.Functions;
 import org.behrang.algorithm.tree.Node;
-import org.behrang.algorithm.tree.TreeTraversal;
 import org.behrang.algorithm.tree.WalkerAlgorithm;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
+import static java.awt.RenderingHints.KEY_ANTIALIASING;
+import static java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
+import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+import static java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_GASP;
 import static org.behrang.algorithm.tree.DimensionCalculator.calculateMaxNodeDimension;
 
 public class TreePanel<T> extends JPanel {
+
+    private static final float PADDING = 5.0f;
+
     private Node<T> root;
+
+    private WalkerAlgorithm<T> walker;
 
     public TreePanel(Node<T> root) {
         setLayout(null);
         setRoot(root);
+
+        initWalker();
     }
 
     public void setRoot(Node<T> root) {
         this.root = root;
+        initWalker();
         repaint();
     }
 
@@ -32,36 +48,29 @@ public class TreePanel<T> extends JPanel {
         }
 
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(
-            RenderingHints.KEY_ANTIALIASING,
-            RenderingHints.VALUE_ANTIALIAS_ON
-        );
+        g2.setRenderingHint(KEY_ANTIALIASING, VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_GASP);
 
-        g2.setRenderingHint(
-            RenderingHints.KEY_TEXT_ANTIALIASING,
-            RenderingHints.VALUE_TEXT_ANTIALIAS_GASP
-        );
+        walker.position(root);
 
+        Functions.preorder(root, n -> {
+            drawNode(g2, n);
+        });
+    }
+
+    void initWalker() {
         var dim = calculateMaxNodeDimension(root);
 
-        var walker = new WalkerAlgorithm<T>(
+        walker = new WalkerAlgorithm<>(
             (float) dim.getWidth(),
             (float) dim.getWidth(),
             20,
             20,
             (float) (dim.getHeight() * 3)
         );
-
-        walker.position(root);
-        TreeTraversal.preorder(root, n -> {
-            drawNode(g2, n);
-        });
     }
 
     void drawNode(Graphics2D g, Node<T> node) {
-        float labelMarginX = 12.0f;
-        float labelMarginY = 1.0f;
-
         g.setColor(Color.BLACK);
         Rectangle2D rect = new Rectangle2D.Double(
             node.getX(),
@@ -74,16 +83,14 @@ public class TreePanel<T> extends JPanel {
         String label = node.getValue().toString();
 
         g.setColor(Color.DARK_GRAY);
-        Font font = new Font(Font.SERIF, Font.ITALIC, 24);
+        Font font = new Font(Font.SERIF, Font.PLAIN, 24);
         g.setFont(font);
 
         FontMetrics fontMetrics = g.getFontMetrics(font);
-        Rectangle2D labelBounds = fontMetrics.getStringBounds(label, g);
+        float x = node.getX() + PADDING;
+        float y = node.getY() + fontMetrics.getAscent();
 
-        g.drawString(label,
-            (float) (node.getX() + labelMarginX),
-            (float) (node.getY() + labelMarginY + labelBounds.getHeight())
-        );
+        g.drawString(label, x, y);
 
         if (node.hasParent()) {
             Node<T> parent = node.getParent();

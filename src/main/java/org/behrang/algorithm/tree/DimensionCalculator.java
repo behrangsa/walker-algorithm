@@ -1,6 +1,6 @@
 package org.behrang.algorithm.tree;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -11,7 +11,7 @@ public class DimensionCalculator {
         final AtomicReference<Float> maxX = new AtomicReference<>(Float.MIN_VALUE);
         final AtomicReference<Float> maxY = new AtomicReference<>(Float.MIN_VALUE);
 
-        TreeTraversal.preorder(root, n -> {
+        Functions.preorder(root, n -> {
             if (n.getX() < minX.get()) {
                 minX.set(n.getX());
             }
@@ -44,7 +44,7 @@ public class DimensionCalculator {
         final AtomicReference<Float> width = new AtomicReference<>(Float.MIN_VALUE);
         final AtomicReference<Float> height = new AtomicReference<>(Float.MIN_VALUE);
 
-        TreeTraversal.preorder(root, n -> {
+        Functions.preorder(root, n -> {
             if (width.get() < n.getWidth()) {
                 width.set(n.getWidth());
             }

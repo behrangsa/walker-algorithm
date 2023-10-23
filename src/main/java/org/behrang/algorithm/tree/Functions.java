@@ -28,13 +28,11 @@ public final class Functions {
         }
     }
 
-    public static <T> void prePostOrder(Node<T> node, Consumer<Node<T>> preConsumer, Consumer<Node<T>> postConsumer) {
-        preConsumer.accept(node);
+    public static <T> void preorder(Node<T> root, Consumer<Node<T>> consumer) {
+        consumer.accept(root);
 
-        node.getChildren().forEach(n -> {
-            prePostOrder(n, preConsumer, postConsumer);
+        root.getChildren().forEach(ch -> {
+            preorder(ch, consumer);
         });
-
-        postConsumer.accept(node);
     }
 }
